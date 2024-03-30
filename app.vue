@@ -7,13 +7,15 @@
       <div
         class="absolute inset-0 bg-white bg-opacity-30 backdrop-filter[blur] flex items-center justify-center"
       >
-        <div class="p-8 bg-white bg-opacity-60 rounded-xl text-center">
+        <div
+          class="p-8 bg-white bg-opacity-60 rounded-xl text-center lg:w-1/3 sm:w-1/2"
+        >
           <h1 class="mb-2 text-2xl font-bold">Weather Application</h1>
-          <p class="my-3">Input location</p>
+          <p class="my-3">Input location And Press Enter</p>
           <input
             class="mb-2 w-full p-2 border rounded-md"
             type="text"
-            placeholder="Location"
+            placeholder="Input Location"
             v-on:keyup.enter="getData"
             v-model="location"
           />
@@ -39,6 +41,18 @@
                 {{ weatherData.data.value.main.temp }}℃
               </th>
             </tr>
+            <tr class="flex mt-2">
+              <th>Temp Max</th>
+              <th class="ml-auto mr-2">
+                {{ weatherData.data.value.main.temp_min }}℃
+              </th>
+            </tr>
+            <tr class="flex mt-2">
+              <th>Temp Min</th>
+              <th class="ml-auto mr-2">
+                {{ weatherData.data.value.main.temp_max }}℃
+              </th>
+            </tr>
           </div>
           <div
             class="mb-2 w-full p-2 border rounded-md bg-white text-black transition-all ease-in-out duration-75 transform translate-y-2"
@@ -52,8 +66,8 @@
   </div>
 </template>
 
-<script setup>
-const location = ref("");
+<script setup lang="ts">
+const location = ref<string>("");
 const runtimeConfig = useRuntimeConfig();
 
 const weatherData = useAsyncData("weather", () =>
@@ -67,7 +81,7 @@ const weatherData = useAsyncData("weather", () =>
   })
 );
 
-const getData = (e) => {
+const getData = (e: any) => {
   if (e.key === "Enter") {
     weatherData.execute();
   }
